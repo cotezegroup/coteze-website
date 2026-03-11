@@ -21,6 +21,10 @@
             /* Logo Accents */
             --accent-navy: #1C2B39;
             --accent-taupe: #8C7765;
+            
+            /* Dynamic Accent Color */
+            --accent-green: #10B981;
+            --accent-green-rgb: 16, 185, 129;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -65,11 +69,11 @@
         }
 
         a { text-decoration: none; color: inherit; transition: color 0.2s ease; }
-        a:hover { color: var(--accent-taupe); }
+        a:hover { color: var(--accent-green); }
 
         /* Focus states for accessibility */
         *:focus-visible {
-            outline: 2px solid var(--accent-taupe);
+            outline: 2px solid var(--accent-green);
             outline-offset: 2px;
         }
 
@@ -147,9 +151,9 @@
         }
 
         nav.desktop-nav a.client-login-btn:hover {
-            border-color: var(--accent-taupe);
-            background: rgba(140, 119, 101, 0.05);
-            color: var(--accent-taupe);
+            border-color: var(--accent-green);
+            background: rgba(var(--accent-green-rgb), 0.05);
+            color: var(--accent-green);
         }
 
         .client-login-glass {
@@ -202,16 +206,26 @@
 
         .header-right {
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
-            color: var(--text-secondary);
+            color: var(--accent-green); /* Positive green */
+            background: rgba(var(--accent-green-rgb), 0.1);
+            padding: 6px 16px;
+            border-radius: 30px; /* Oval shape */
+            border: 1px solid rgba(var(--accent-green-rgb), 0.2);
             cursor: pointer;
             position: relative;
+            transition: all 0.3s ease;
         }
 
-        .status-dot { color: var(--accent-taupe); font-size: 12px; }
+        .header-right:hover {
+            background: rgba(var(--accent-green-rgb), 0.15);
+            border-color: rgba(var(--accent-green-rgb), 0.3);
+        }
+
+        .status-dot { color: var(--accent-green); font-size: 14px; }
 
         /* Availability Popup - Liquid Glass */
         .availability-popup {
@@ -279,15 +293,15 @@
         .badge {
             display: inline-flex;
             align-items: center;
-            border: 1px solid var(--accent-taupe);
-            color: var(--accent-taupe);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
             padding: 4px 10px;
             font-size: 0.65rem;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
             margin-bottom: 24px;
-            background: rgba(140, 119, 101, 0.05); /* very subtle tint */
+            background: rgba(var(--accent-green-rgb), 0.05); /* very subtle tint */
         }
 
         .hero {
@@ -562,7 +576,7 @@
             left: 0;
             width: 100%;
             height: 3px;
-            background: var(--accent-taupe);
+            background: var(--accent-green);
             transform: scaleX(0);
             transform-origin: left;
             transition: transform 0.4s ease;
@@ -739,7 +753,7 @@
         /* Form Feedback Text */
         .feedback-text {
             font-size: 0.8rem;
-            color: var(--accent-taupe);
+            color: var(--accent-green);
             margin-top: 6px;
             min-height: 18px;
             font-weight: 500;
@@ -788,9 +802,9 @@
             display: inline-block;
             width: 12px;
             height: 12px;
-            border: 2px solid rgba(140, 119, 101, 0.3);
+            border: 2px solid rgba(var(--accent-green-rgb), 0.3);
             border-radius: 50%;
-            border-top-color: var(--accent-taupe);
+            border-top-color: var(--accent-green);
             animation: spin 1s ease-in-out infinite;
         }
 
@@ -864,7 +878,7 @@
         }
 
         .verified-badge {
-            color: #10B981; /* Green */
+            color: var(--accent-green); /* Green */
         }
 
         .review-text {
@@ -891,8 +905,8 @@
         .review-company {
             font-size: 0.85rem;
             font-weight: 500;
-            color: var(--text-muted);
-            background: rgba(0,0,0,0.04);
+            color: var(--accent-green);
+            background: rgba(var(--accent-green-rgb), 0.1);
             padding: 6px 12px;
             border-radius: 20px;
         }
@@ -966,10 +980,14 @@
         .card-icon {
             font-size: 1.5rem;
             margin-bottom: 20px;
-            background: rgba(255,255,255,0.3);
+            background: rgba(var(--accent-green-rgb), 0.15); /* Green translucent background */
             width: 40px; height: 40px;
             display: flex; align-items: center; justify-content: center;
             border-radius: 12px;
+        }
+
+        .card-icon svg {
+            stroke: var(--accent-green) !important;
         }
 
         .card-header {
@@ -1069,8 +1087,8 @@
         }
 
         .status-badge {
-            background: rgba(16, 185, 129, 0.1);
-            color: #10B981;
+            background: rgba(var(--accent-green-rgb), 0.1);
+            color: var(--accent-green);
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.8rem;
@@ -1082,16 +1100,16 @@
 
         .pulse-dot {
             width: 8px; height: 8px;
-            background: #10B981;
+            background: var(--accent-green);
             border-radius: 50%;
-            box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4);
+            box-shadow: 0 0 0 0 rgba(var(--accent-green-rgb), 0.4);
             animation: pulse-green 2s infinite;
         }
 
         @keyframes pulse-green {
-            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
-            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(var(--accent-green-rgb), 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(var(--accent-green-rgb), 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(var(--accent-green-rgb), 0); }
         }
 
         .map-container {
@@ -1279,7 +1297,7 @@
                 inset 0 0 0 1px rgba(255, 255, 255, 0.5),
                 inset 0 15px 30px rgba(255, 255, 255, 0.4);
             background: rgba(255, 255, 255, 0.3);
-            color: var(--accent-taupe);
+            color: var(--accent-green);
         }
 
         .scroll-to-top.visible {
