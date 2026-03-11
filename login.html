@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Côteze Group | Client Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <script type="module" src="https://unpkg.com/@splinetool/viewer/build/spline-viewer.js"></script>
+    <style>
+        /* CSS Reset & Global Styles */
+        :root {
+            /* Minimalist Design System */
+            --bg-primary: #F9F9F9;
+            --bg-surface: #FFFFFF;
+            --text-primary: #111111;
+            --text-secondary: #666666;
+            --text-muted: #888888;
+            --border-color: #EAEAEA;
+            --action-primary: #111111;
+            
+            /* Logo Accents */
+            --accent-navy: #1C2B39;
+            --accent-taupe: #8C7765;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .ambient-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg-primary);
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
+        
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a { text-decoration: none; color: inherit; transition: color 0.2s ease; }
+        a:hover { color: var(--accent-taupe); }
+
+        *:focus-visible {
+            outline: 2px solid var(--accent-taupe);
+            outline-offset: 2px;
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .logo-text {
+            font-weight: 600;
+            font-size: 1.4rem;
+            color: var(--accent-navy);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-icon {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            margin-top: 4px;
+        }
+
+        .chevron-up { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid var(--accent-navy); }
+        .chevron-down { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid var(--accent-taupe); }
+
+        .btn {
+            background: rgba(17, 17, 17, 0.9);
+            backdrop-filter: blur(20px) saturate(150%);
+            -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            color: #fff;
+            padding: 16px 36px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0) 50%);
+            border-radius: inherit; pointer-events: none;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            background: #000;
+        }
+
+        /* Login Secion */
+        .auth-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .auth-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-radius: 24px;
+            padding: 50px 40px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.05);
+            border: 1px solid rgba(255,255,255,0.6);
+            width: 100%;
+            max-width: 480px;
+            position: relative;
+            overflow: hidden;
+            z-index: 10;
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .auth-header h2 {
+            font-size: 2rem;
+            font-weight: 500;
+            letter-spacing: -1px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .auth-header p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 16px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            border: 1px solid var(--border-color);
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 12px;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input:hover { border-color: #ccc; }
+        input:focus { border-color: var(--text-primary); background: var(--bg-surface); }
+        
+        .forgot-password {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: -10px;
+            margin-bottom: 20px;
+        }
+        
+        .forgot-password a {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        
+        .forgot-password a:hover {
+            color: var(--accent-taupe);
+        }
+
+        .auth-footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .auth-footer button {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            padding: 0;
+            font-family: inherit;
+            text-decoration: underline;
+            text-decoration-color: transparent;
+            transition: text-decoration-color 0.2s ease;
+        }
+
+        .auth-footer button:hover {
+            color: var(--accent-taupe);
+            text-decoration-color: var(--accent-taupe);
+        }
+
+        /* Toggle forms */
+        #register-form { display: none; }
+        
+    </style>
+</head>
+<body>
+    <div class="ambient-bg">
+        <spline-viewer url="https://prod.spline.design/u5vi8b8oqHtsBbhr/scene.splinecode" background="transparent" events-target="global" style="width:100%; height:100%; filter: invert(1) hue-rotate(180deg) brightness(1.2); mix-blend-mode: multiply; pointer-events: none;"></spline-viewer>
+    </div>
+
+    <div class="content-wrapper">
+        <header>
+            <a href="index.html" class="logo" aria-label="Côteze Group Home">
+                <span class="logo-text">Côteze Group</span>
+                <div class="logo-icon">
+                    <div class="chevron-up"></div>
+                    <div class="chevron-down"></div>
+                </div>
+            </a>
+            <a href="index.html" style="font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);">Back to Website</a>
+        </header>
+
+        <div class="auth-container">
+            <div class="auth-card">
+                
+                <!-- Login Form -->
+                <div id="login-form">
+                    <div class="auth-header">
+                        <h2>Client Portal</h2>
+                        <p>Welcome back. Log in to access your dashboard.</p>
+                    </div>
+                    <form onsubmit="event.preventDefault(); alert('Login functionality will be attached to backend.');">
+                        <div class="form-group">
+                            <label for="email">Work Email</label>
+                            <input type="email" id="email" placeholder="jane@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" placeholder="••••••••" required>
+                        </div>
+                        <div class="forgot-password">
+                            <a href="#">Forgot password?</a>
+                        </div>
+                        <button type="submit" class="btn">Log In</button>
+                    </form>
+                    <div class="auth-footer">
+                        Don't have an account? <button onclick="toggleAuth('register')">Create an account</button>
+                    </div>
+                </div>
+
+                <!-- Registration Form -->
+                <div id="register-form">
+                    <div class="auth-header">
+                        <h2>Create Account</h2>
+                        <p>Gain access to the Côteze client platform.</p>
+                    </div>
+                    <form onsubmit="event.preventDefault(); alert('Registration functionality will be attached to backend.');">
+                        <div class="form-group">
+                            <label for="reg-name">Full Name</label>
+                            <input type="text" id="reg-name" placeholder="Jane Doe" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-email">Work Email</label>
+                            <input type="email" id="reg-email" placeholder="jane@company.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="reg-password">Password</label>
+                            <input type="password" id="reg-password" placeholder="Create a strong password" required>
+                        </div>
+                        <button type="submit" class="btn">Create Account</button>
+                    </form>
+                    <div class="auth-footer">
+                        Already have an account? <button onclick="toggleAuth('login')">Log back in</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleAuth(type) {
+            const loginForm = document.getElementById('login-form');
+            const registerForm = document.getElementById('register-form');
+            
+            if (type === 'register') {
+                loginForm.style.display = 'none';
+                registerForm.style.display = 'block';
+            } else {
+                loginForm.style.display = 'block';
+                registerForm.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

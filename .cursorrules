@@ -1,0 +1,13 @@
+# Website Editing Rules
+
+When requested to modify, update, or create features for "the website" or any related chat commands, strictly adhere to the following rules:
+
+1. **Primary Workflow**: If asked to do something, modify, or add features, MUST ONLY do it on the Testing Website first. Do not touch the Main Website until explicitly asked to implement the verified changes onto the Main Website.
+
+2. **Test Website (`localhost:8081`)**: All test environment changes MUST ONLY be applied to the files located in:
+   `/Users/admin/Desktop/Coteze/Coteze Website/Website/Edit_Coteze/`
+
+3. **Main Website (`localhost:8080`)**: All production or main website changes MUST ONLY be applied to the files located directly in:
+   `/Users/admin/Desktop/Coteze/Coteze Website/Website/` (Only do this when explicitly requested after testing is complete)
+
+4. **Exclusion Zone**: DO NOT modify, change, or interact with any other files or websites in any other folders unless explicitly instructed by the user to do so. This rule protects other existing projects from accidental changes.
